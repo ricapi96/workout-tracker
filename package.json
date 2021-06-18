@@ -15,10 +15,6 @@
   },
   "author": "",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ricapi96/workout-tracker/issues"
-  },
-  "homepage": "https://github.com/ricapi96/workout-tracker#readme",
   "dependencies": {
     "express": "^4.17.1",
     "mongoose": "^5.12.14",
