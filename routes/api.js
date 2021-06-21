@@ -1,4 +1,5 @@
 const router = require("express").Router();
+// const { db } = require("../models/workout");
 const Workout = require("../models/workout");
 // const mongojs = require("mongojs");
 
@@ -34,5 +35,45 @@ router.post("/workouts", (req, res) => {
     }
   );
 });
+
+// Add new exercise
+router.put("/workouts/:id", (req, res) => {
+  id = mongojs.ObjectId(req.params.id);
+  db.workouts.update(
+    {
+      _id: id,
+    },
+    {
+      $push: {
+        exercises: {
+          type: req.body.type,
+          name: req.body.name,
+          duration: req.body.duration,
+          weight: req.body.weight,
+          reps: req.body.reps,
+          sets: req.body.sets,
+          distance: req.body.distance,
+        },
+      },
+    },
+    (error, data) => {
+      if (error) {
+        res.send(error);
+      } else {
+        res.send(data);
+      }
+    }
+  );
+});
+
+router.get("/workouts/range", (req, res) => {
+    db.workouts.find(), (error, data) => {
+        if (error) {
+            res.send(error);
+        } else {
+            res.json(data);
+        }
+    };
+})
 
 module.exports = router;
