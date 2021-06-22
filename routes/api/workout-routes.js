@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const { Workout } = require("../../models");
 
-
 // Get last workout
 router.get("/", async (req, res) => {
   try {
@@ -42,7 +41,6 @@ router.put("/:id", async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
-    
 });
 
 // Get data for range
@@ -57,6 +55,5 @@ router.get("/range", async (req, res) => {
     res.status(500).json(err);
   }
 });
-
 
 module.exports = router;
