@@ -1,50 +1,62 @@
 const router = require("express").Router();
-const workout = require("../models/Workout");
-const db = require("../models");
+const { Workout } = require("../models");
+
 
 // Get last workout
-router.get("/api/workout", (req, res) => {
-  db.workout
-    .find({})
-    .sort({ date: -1 })
-    .then((workout) => {
-      res.status(200).json(workout);
-    })
-    .catch((err) => {
-      res.status(400).json(err);
-    });
+router.get("/", async (req, res) => {
+  try {
+    const workoutData = await Workout.aggregate([
+      { $addFields: { totalDuration: { $sum: "$exercises.duration" } } },
+    ]);
+    res.json(workoutData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
-router.get("/api/workout/range", (req, res) => {
-  db.workout
-    .find({})
-    .sort({ date: -1 })
-    .then((workout) => {
-      res.status(200).json(workout);
-    })
-    .catch((err) => {
-      res.status(400).json(err);
-    });
+// Create new workout
+router.post("/", async (req, res) => {
+  try {
+    const newWorkout = await Workout.create({});
+    console.log(newWorkout);
+    res.json(newWorkout);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
 });
 
-router.put("/api/workout/:id", async (req, res) => {
-  const id = req.params.id;
-  const body = req.body;
-  db.workout
-    .updateOne(
-      { _id: id },
+// updates to a workout
+router.put("/:id", async (req, res) => {
+  try {
+    const newWorkout = await Workout.findByIdAndUpdate(
+      req.params.id,
       {
         $push: {
-          exercises: { ...body },
+          exercises: req.body,
         },
-      }
-    )
-    .then((workout) => {
-      res.status(200).json(workout);
-    })
-    .catch((err) => {
-      res.status(400).json(err);
-    });
+      },
+      { new: true, runValidators: true }
+    );
+    res.json(newWorkout);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+    
 });
+
+// Get data for range
+router.get("/range", async (req, res) => {
+  try {
+    const workoutData = await Workout.aggregate([
+      { $addFields: { totalDuration: { $sum: "$exercise.duration" } } },
+    ]);
+    res.json(workoutData);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json(err);
+  }
+});
+
 
 module.exports = router;
