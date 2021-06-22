@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { Workout } = require("../models");
+const { Workout } = require("../../models");
 
 
 // Get last workout
@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// updates to a workout
+// Updates to a workout
 router.put("/:id", async (req, res) => {
   try {
     const newWorkout = await Workout.findByIdAndUpdate(
