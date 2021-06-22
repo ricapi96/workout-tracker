@@ -3,7 +3,7 @@
  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Description
-[Deployed Application](https://infinite-savannah-57813.herokuapp.com/)
+[Deployed Application](https://workout-tracker10.herokuapp.com/)
 
 This is a workout tracker application, complete with a Mongo database with a Mongoose schema, and the routes are handled with Express. This allows the user to view, create, and track daily workouts.
 
